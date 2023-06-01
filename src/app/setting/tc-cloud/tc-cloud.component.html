@@ -1,0 +1,47 @@
+<ng-template #extra>
+  <button nz-button nzType="primary" (click)="submit()">
+    <i nz-icon nzType="save" nzTheme="outline"></i>
+    保存
+  </button>
+</ng-template>
+
+<nz-card nzTitle="腾讯云" [nzExtra]="extra">
+  <form nz-form [formGroup]="group" (ngSubmit)="submit()">
+    <!-- <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="Type" nzRequired>类型</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback  [nzErrorTip]="TypeErrorTpl">
+          <nz-select nzShowSearch nzAllowClear  name="Type" formControlName="Type">
+            <nz-option nzValue="sqlite3" nzLabel="SQLite3" nzDisabled></nz-option>
+            <nz-option nzValue="mysql" nzLabel="MySQL"></nz-option>
+            <nz-option nzValue="postgres" nzLabel="PostgreSQL"></nz-option>
+            <nz-option nzValue="oci8" nzLabel="Oracle"></nz-option>
+            <nz-option nzValue="mssql" nzLabel="MS SQL Server"></nz-option>
+          </nz-select>
+          <ng-template #TypeErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">请选择类型!</ng-container> 
+          </ng-template> 
+        </nz-form-control>
+      </nz-form-item> -->
+
+    <!-- <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="AccessKeyId"
+        >模板id</nz-form-label
+      >
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input name="AccessKeyId" formControlName="AccessKeyId" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="AccessKeySecret"
+        >启用</nz-form-label
+      >
+      <nz-form-control [nzSm]="1" [nzXs]="24" nzHasFeedback>
+        <nz-switch
+          name="AccessKeySecret"
+          formControlName="AccessKeySecret"
+        ></nz-switch>
+      </nz-form-control>
+    </nz-form-item> -->
+  </form>
+</nz-card>

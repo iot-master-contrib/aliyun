@@ -1,0 +1,69 @@
+<nz-layout>
+    <app-common-header
+        title="短信记录"
+        moduleName="sms"
+        (onSearch)="search($event)"
+        (onLoad)="load()"
+        (onAdd)="onAdd()"
+    >
+    </app-common-header>
+
+    <nz-content>
+        <ng-template #totalTemplate let-total>总共 {{ total }} 条</ng-template>
+        <nz-table
+            #basicTable
+            [nzData]="datum"
+            nzShowSizeChanger
+            [nzFrontPagination]="false"
+            [nzShowTotal]="totalTemplate"
+            (nzPageSizeChange)="pageSizeChange($event)"
+            (nzPageIndexChange)="pageIndexChange($event)"
+            [nzPageSize]="pageSize"
+            [nzPageIndex]="pageIndex"
+            [nzTotal]="total"
+            (nzQueryParams)="onQuery($event)"
+        >
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>类型</th>
+                    <th>电话</th>
+                    <th>内容</th>
+                    <th>结果</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let data of basicTable.data; let i = index"
+                    (dblclick)="open(data.id)"
+                >
+                    <td>{{ data.id }}</td>
+                    <td>{{ data.type }}</td>
+                    <td>{{ data.cellphone }}</td>
+                    <td>{{ data.content }}</td>
+                    <td>{{ data.result }}</td>
+                    <td>
+                        <nz-tag [nzColor]="data.result ? 'success' : 'error'">
+                            <span>{{ data.result ? "成功" : "失败" }}</span>
+                        </nz-tag>
+                    </td>
+                    <td>{{ data.created }}</td>
+                    <td nzRight>
+                        <a
+                        nz-popconfirm
+                        nzPopconfirmPlacement="topLeft"
+                        nzPopconfirmTitle="确定删除?"
+                        (nzOnConfirm)="delete(data.id)"
+                        (nzOnCancel)="disDelete()"
+                      >
+                        <i nz-icon nzType="delete"></i>
+                      </a>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-content>
+</nz-layout>
+
+ 

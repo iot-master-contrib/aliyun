@@ -1,0 +1,197 @@
+basePath: /app/sms/api/
+definitions:
+  api.ParamSearch:
+    properties:
+      filter:
+        additionalProperties: true
+        type: object
+      keyword:
+        additionalProperties:
+          type: string
+        type: object
+      limit:
+        type: integer
+      skip:
+        type: integer
+      sort:
+        additionalProperties:
+          type: integer
+        type: object
+    type: object
+  api.ReplyData-int64:
+    properties:
+      data:
+        type: integer
+      error:
+        type: string
+    type: object
+  api.ReplyData-types_Sms:
+    properties:
+      data:
+        $ref: '#/definitions/types.Sms'
+      error:
+        type: string
+    type: object
+  api.ReplyList-types_Sms:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/types.Sms'
+        type: array
+      error:
+        type: string
+      total:
+        type: integer
+    type: object
+  types.Sms:
+    properties:
+      cellphone:
+        type: string
+      content:
+        type: string
+      created:
+        type: string
+      id:
+        type: integer
+      result:
+        type: string
+      type:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: API文档
+  title: 历史数据接口文档
+  version: 1.0 版本
+paths:
+  /sms/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 获取短消息
+      parameters:
+      - description: 短消息ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Sms'
+      summary: 获取短消息
+      tags:
+      - sms
+  /sms/{id}/delete:
+    get:
+      consumes:
+      - application/json
+      description: 删除短消息
+      parameters:
+      - description: 短消息ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Sms'
+      summary: 删除短消息
+      tags:
+      - sms
+  /sms/count:
+    post:
+      consumes:
+      - application/json
+      description: 查询短消息数量
+      parameters:
+      - description: 查询参数
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/api.ParamSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-int64'
+      summary: 查询短消息数量
+      tags:
+      - sms
+  /sms/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建短消息
+      parameters:
+      - description: 短消息信息
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/types.Sms'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Sms'
+      summary: 创建短消息
+      tags:
+      - sms
+  /sms/list:
+    get:
+      consumes:
+      - application/json
+      description: 查询短消息
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: skip
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyList-types_Sms'
+      summary: 查询短消息
+      tags:
+      - sms
+  /sms/search:
+    post:
+      consumes:
+      - application/json
+      description: 查询短消息
+      parameters:
+      - description: 查询参数
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/api.ParamSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyList-types_Sms'
+      summary: 查询短消息
+      tags:
+      - sms
+swagger: "2.0"

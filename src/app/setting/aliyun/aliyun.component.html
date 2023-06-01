@@ -1,0 +1,31 @@
+<ng-template #extra>
+  <button nz-button nzType="primary" (click)="submit()">
+    <i nz-icon nzType="save" nzTheme="outline"></i>
+    保存
+  </button>
+</ng-template>
+
+<nz-card nzTitle="阿里云" [nzExtra]="extra">
+  <form nz-form [formGroup]="group" (ngSubmit)="submit()">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="AccessKeyId"
+        >模板id</nz-form-label
+      >
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input name="AccessKeyId" formControlName="AccessKeyId" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="AccessKeySecret"
+        >启用</nz-form-label
+      >
+      <nz-form-control [nzSm]="1" [nzXs]="24" nzHasFeedback>
+        <nz-switch
+          name="AccessKeySecret"
+          formControlName="AccessKeySecret"
+        ></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-card>
