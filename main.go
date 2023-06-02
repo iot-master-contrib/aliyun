@@ -30,7 +30,7 @@ func App() *model.App {
 		}},
 		Type:    "tcp",
 		Address: "http://localhost" + web.GetOptions().Addr,
-		Icon:    "/app/sms/assets/sms.svg",
+		Icon:    "/app/aliyun/assets/sms.svg",
 	}
 }
 
