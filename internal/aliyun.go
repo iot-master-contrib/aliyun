@@ -10,35 +10,30 @@ import (
 	"strings"
 )
 
-type Sender struct {
-	client *sms.Client
-}
+var client *sms.Client
 
-func (s *Sender) Connect(id, secret string) error {
+func Open() error {
 	config := &openapi.Config{
-		// 必填，您的 AccessKey ID
-		AccessKeyId: &id,
-		// 必填，您的 AccessKey Secret
-		AccessKeySecret: &secret,
+		AccessKeyId:     tea.String(options.Id),
+		AccessKeySecret: tea.String(options.Secret),
+		Endpoint:        tea.String("dysmsapi.aliyuncs.com"),
 	}
-	// 访问的域名
-	config.Endpoint = tea.String("dysmsapi.aliyuncs.com")
 	var err error
-	s.client, err = sms.NewClient(config)
+	client, err = sms.NewClient(config)
 	return err
 }
 
-func (s *Sender) Send(phone []string, sign, code string, param map[string]string) error {
+func Send(phone []string, param map[string]string) error {
 	p, _ := json.Marshal(param)
 
 	req := &sms.SendSmsRequest{
 		PhoneNumbers:  tea.String(strings.Join(phone, ",")),
-		SignName:      tea.String(sign),
-		TemplateCode:  tea.String(code),
+		SignName:      tea.String(options.Sign),
+		TemplateCode:  tea.String(options.Template),
 		TemplateParam: tea.String(string(p)),
 	}
 	runtime := &util.RuntimeOptions{}
-	resp, err := s.client.SendSmsWithOptions(req, runtime)
+	resp, err := client.SendSmsWithOptions(req, runtime)
 	if err != nil {
 		log.Println(resp)
 	}
