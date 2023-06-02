@@ -49,7 +49,7 @@ func Startup(app *web.Engine) error {
 
 	//同步表结构
 	err := db.Engine.Sync2(
-		new(types.Sms),
+		new(types.Sms), new(types.Subscriber),
 	)
 	if err != nil {
 		log.Fatal(err)

@@ -39,7 +39,8 @@ export class SmsComponent {
         { value: 'tccloud', label: '腾讯云' },
         { value: 'hicloud', label: '华为云' },
     ];
-    url = '/app/aliyun/api/sms/';
+
+    url = 'sms/';
     isVisible = false;
     addVisible = false;
     loading = true;

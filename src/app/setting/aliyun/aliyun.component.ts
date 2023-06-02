@@ -35,7 +35,7 @@ export class AliyunComponent implements OnInit {
     }
 
     load() {
-        this.rs.get(`config/database`).subscribe((res) => {
+        this.rs.get(`config/aliyun`).subscribe((res) => {
             this.dbData = res.data
             // this.group.patchValue({  })
         });

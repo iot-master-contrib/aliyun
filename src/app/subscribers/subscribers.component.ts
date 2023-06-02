@@ -27,7 +27,7 @@
       uploading: Boolean = false;
       pageIndex = 1;
       query: any = {};
-      url = '/app/history/api/';
+
       href!: string;
       filterLevel = [
           { text: '1', value: 1 },
@@ -56,7 +56,7 @@
       load() {
           this.loading = true;
           this.rs
-              .post(this.url + 'subscriber/search', this.query)
+              .post('subscriber/search', this.query)
               .subscribe((res) => {
                   const { data, total } = res;
                   this.datum = data || [];
@@ -79,7 +79,7 @@
       }
 
       delete(id: number, size?: number) {
-          this.rs.get(this.url + `subscriber/${id}/delete`).subscribe((res) => {
+          this.rs.get(`subscriber/${id}/delete`).subscribe((res) => {
               if (!size) {
                   this.msg.success('删除成功');
                   this.datum = this.datum.filter((d) => d.id !== id);
@@ -122,14 +122,14 @@
           const formData = new FormData();
           formData.append('file', file);
           this.rs
-              .post(this.url + `subscriber/import`, formData)
+              .post(`subscriber/import`, formData)
               .subscribe((res) => {
                   console.log(res);
               });
       }
 
       handleExport() {
-          this.href = this.url + `subscriber/export`;
+          this.href = `subscriber/export`;
       }
 
       read(data: any) {
@@ -139,13 +139,13 @@
       disable(mess: number, id: any) {
           if (mess)
               this.rs
-                  .get(this.url + `subscriber/${id}/disable`)
+                  .get(`subscriber/${id}/disable`)
                   .subscribe((res) => {
                       this.reload();
                   });
           else
               this.rs
-                  .get(this.url + `subscriber/${id}/enable`)
+                  .get(`subscriber/${id}/enable`)
                   .subscribe((res) => {
                       this.reload();
                   });
