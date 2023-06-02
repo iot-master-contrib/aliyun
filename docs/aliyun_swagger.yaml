@@ -1,0 +1,521 @@
+basePath: /app/aliyun/api/
+definitions:
+  api.ParamSearch:
+    properties:
+      filter:
+        additionalProperties: true
+        type: object
+      keyword:
+        additionalProperties:
+          type: string
+        type: object
+      limit:
+        type: integer
+      skip:
+        type: integer
+      sort:
+        additionalProperties:
+          type: integer
+        type: object
+    type: object
+  api.ReplyData-int:
+    properties:
+      data:
+        type: integer
+      error:
+        type: string
+    type: object
+  api.ReplyData-int64:
+    properties:
+      data:
+        type: integer
+      error:
+        type: string
+    type: object
+  api.ReplyData-internal_Options:
+    properties:
+      data:
+        $ref: '#/definitions/internal.Options'
+      error:
+        type: string
+    type: object
+  api.ReplyData-types_Sms:
+    properties:
+      data:
+        $ref: '#/definitions/types.Sms'
+      error:
+        type: string
+    type: object
+  api.ReplyData-types_Subscriber:
+    properties:
+      data:
+        $ref: '#/definitions/types.Subscriber'
+      error:
+        type: string
+    type: object
+  api.ReplyList-types_Sms:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/types.Sms'
+        type: array
+      error:
+        type: string
+      total:
+        type: integer
+    type: object
+  api.ReplyList-types_Subscriber:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/types.Subscriber'
+        type: array
+      error:
+        type: string
+      total:
+        type: integer
+    type: object
+  internal.Options:
+    properties:
+      id:
+        type: string
+      secret:
+        type: string
+      sign:
+        type: string
+      template:
+        type: string
+    type: object
+  types.Sms:
+    properties:
+      cellphone:
+        type: string
+      content:
+        type: string
+      created:
+        type: string
+      id:
+        type: integer
+      result:
+        type: string
+      type:
+        type: string
+    type: object
+  types.Subscriber:
+    properties:
+      cellphone:
+        type: string
+      created:
+        type: string
+      disabled:
+        type: boolean
+      id:
+        type: integer
+      level:
+        type: integer
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: API文档
+  title: 阿里云接口文档
+  version: 1.0 版本
+paths:
+  /config/aliyun:
+    get:
+      consumes:
+      - application/json
+      description: 查询阿里云配置
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-internal_Options'
+      summary: 查询阿里云配置
+      tags:
+      - config
+    post:
+      consumes:
+      - application/json
+      description: 修改阿里云配置
+      parameters:
+      - description: 阿里云配置
+        in: body
+        name: cfg
+        required: true
+        schema:
+          $ref: '#/definitions/internal.Options'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-int'
+      summary: 修改阿里云配置
+      tags:
+      - config
+  /sms/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 获取短消息
+      parameters:
+      - description: 短消息ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Sms'
+      summary: 获取短消息
+      tags:
+      - sms
+  /sms/{id}/delete:
+    get:
+      consumes:
+      - application/json
+      description: 删除短消息
+      parameters:
+      - description: 短消息ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Sms'
+      summary: 删除短消息
+      tags:
+      - sms
+  /sms/count:
+    post:
+      consumes:
+      - application/json
+      description: 查询短消息数量
+      parameters:
+      - description: 查询参数
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/api.ParamSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-int64'
+      summary: 查询短消息数量
+      tags:
+      - sms
+  /sms/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建短消息
+      parameters:
+      - description: 短消息信息
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/types.Sms'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Sms'
+      summary: 创建短消息
+      tags:
+      - sms
+  /sms/list:
+    get:
+      consumes:
+      - application/json
+      description: 查询短消息
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: skip
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyList-types_Sms'
+      summary: 查询短消息
+      tags:
+      - sms
+  /sms/search:
+    post:
+      consumes:
+      - application/json
+      description: 查询短消息
+      parameters:
+      - description: 查询参数
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/api.ParamSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyList-types_Sms'
+      summary: 查询短消息
+      tags:
+      - sms
+  /subscriber/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 获取订阅
+      parameters:
+      - description: 订阅ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Subscriber'
+      summary: 获取订阅
+      tags:
+      - subscriber
+    post:
+      consumes:
+      - application/json
+      description: 修改订阅
+      parameters:
+      - description: 订阅ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 订阅信息
+        in: body
+        name: subscriber
+        required: true
+        schema:
+          $ref: '#/definitions/types.Subscriber'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Subscriber'
+      summary: 修改订阅
+      tags:
+      - subscriber
+  /subscriber/{id}/delete:
+    get:
+      consumes:
+      - application/json
+      description: 删除订阅
+      parameters:
+      - description: 订阅ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Subscriber'
+      summary: 删除订阅
+      tags:
+      - subscriber
+  /subscriber/{id}/disable:
+    get:
+      consumes:
+      - application/json
+      description: 禁用订阅
+      parameters:
+      - description: 订阅ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Subscriber'
+      summary: 禁用订阅
+      tags:
+      - subscriber
+  /subscriber/{id}/enable:
+    get:
+      consumes:
+      - application/json
+      description: 启用订阅
+      parameters:
+      - description: 订阅ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Subscriber'
+      summary: 启用订阅
+      tags:
+      - subscriber
+  /subscriber/count:
+    post:
+      consumes:
+      - application/json
+      description: 查询订阅数量
+      parameters:
+      - description: 查询参数
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/api.ParamSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-int64'
+      summary: 查询订阅数量
+      tags:
+      - subscriber
+  /subscriber/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建订阅
+      parameters:
+      - description: 订阅信息
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/types.Subscriber'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-types_Subscriber'
+      summary: 创建订阅
+      tags:
+      - subscriber
+  /subscriber/export:
+    get:
+      consumes:
+      - application/json
+      description: 导出订阅
+      produces:
+      - application/octet-stream
+      responses: {}
+      summary: 导出订阅
+      tags:
+      - product
+  /subscriber/import:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 导入订阅
+      parameters:
+      - description: 压缩包
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyData-int64'
+      summary: 导入订阅
+      tags:
+      - product
+  /subscriber/list:
+    get:
+      consumes:
+      - application/json
+      description: 查询订阅
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: skip
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyList-types_Subscriber'
+      summary: 查询订阅
+      tags:
+      - subscriber
+  /subscriber/search:
+    post:
+      consumes:
+      - application/json
+      description: 查询订阅
+      parameters:
+      - description: 查询参数
+        in: body
+        name: search
+        required: true
+        schema:
+          $ref: '#/definitions/api.ParamSearch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ReplyList-types_Subscriber'
+      summary: 查询订阅
+      tags:
+      - subscriber
+swagger: "2.0"

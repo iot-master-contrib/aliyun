@@ -19,10 +19,13 @@ func App() *model.App {
 		Id:   "sms",
 		Name: "短消息推送",
 		Entries: []model.AppEntry{{
-			Path: "app/sms/sms",
+			Path: "app/aliyun/subscriber",
+			Name: "消息订阅",
+		}, {
+			Path: "app/aliyun/sms",
 			Name: "消息历史",
 		}, {
-			Path: "app/sms/setting",
+			Path: "app/aliyun/setting",
 			Name: "配置",
 		}},
 		Type:    "tcp",
@@ -34,10 +37,10 @@ func App() *model.App {
 //go:embed all:app/sms
 var wwwFiles embed.FS
 
-// @title 历史数据接口文档
+// @title 阿里云接口文档
 // @version 1.0 版本
 // @description API文档
-// @BasePath /app/sms/api/
+// @BasePath /app/aliyun/api/
 // @query.collection.format multi
 func main() {
 }

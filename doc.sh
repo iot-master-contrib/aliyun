@@ -1,1 +1,1 @@
-swag init --instanceName sms
+swag init --instanceName aliyun

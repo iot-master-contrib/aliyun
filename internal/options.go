@@ -6,10 +6,10 @@ import (
 )
 
 type Options struct {
-	Id       string `yaml:"id"`
-	Secret   string `yaml:"secret"`
-	Sign     string `yaml:"sign"`
-	Template string `yaml:"template"`
+	Id       string `json:"id"`
+	Secret   string `json:"secret"`
+	Sign     string `json:"sign"`
+	Template string `json:"template"`
 }
 
 func Default() Options {

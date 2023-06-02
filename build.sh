@@ -22,7 +22,7 @@ ldflags="-X '${pkg}.Version=$version' \
 export GOARCH=amd64
 
 export GOOS=windows
-go build -ldflags "$ldflags" -o sms.exe cmd/main.go
+go build -ldflags "$ldflags" -o aliyun.exe cmd/main.go
 
 export GOOS=linux
-go build -ldflags "$ldflags" -o sms cmd/main.go
+go build -ldflags "$ldflags" -o aliyun cmd/main.go
