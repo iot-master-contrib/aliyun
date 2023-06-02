@@ -34,7 +34,7 @@ func Subscribe() {
 		//查询订阅者
 		level := alarm["level"].(uint)
 		var subs []*types.Subscriber
-		err = db.Engine.Where("level <= ?", level).Find(&subs)
+		err = db.Engine.Where("level <= ?", level).And("disabled = ?", false).Find(&subs)
 		if err != nil && len(subs) > 0 {
 			var phones []string
 			for _, s := range subs {
