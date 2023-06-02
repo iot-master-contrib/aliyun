@@ -11,7 +11,7 @@ import { NzNotificationService } from "ng-zorro-antd/notification";
 })
 export class RequestService {
 
-  public base = '/app/'; //使用ng brokers proxy.config.json
+  public base = '/app/aliyun/api/'; //使用ng brokers proxy.config.json
   //public base = environment.host;
 
   constructor(

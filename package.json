@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --base-href /app/sms/",
+    "build": "ng build --base-href /app/aliyun/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

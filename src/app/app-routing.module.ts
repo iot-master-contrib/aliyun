@@ -1,21 +1,23 @@
-import { MsgLogComponent } from './msg-log/msg-log.component';
-import { TcCloudComponent } from './setting/tc-cloud/tc-cloud.component';
-import { HicloudComponent } from './setting/hicloud/hicloud.component';
-import { AliyunComponent } from './setting/aliyun/aliyun.component';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router'; 
- 
+import {SmsComponent} from './sms/sms.component';
+import {AliyunComponent} from './setting/aliyun/aliyun.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {SubscribersComponent} from "./subscribers/subscribers.component";
+import {SubscriberEditComponent} from "./subscriber-edit/subscriber-edit.component";
+
 const routes: Routes = [
- // { path: '', pathMatch: "full", redirectTo: "setting/aliyun" },
-  { path: 'setting/aliyun', component: AliyunComponent },
-  { path: 'setting/hicloud', component: HicloudComponent},
-  { path: 'setting/tcCloud', component: TcCloudComponent},
-  { path: 'msgLog', component: MsgLogComponent},
-   
+    {path: 'sms', component: SmsComponent},
+    {path: 'subscriber', component: SubscribersComponent},
+    {path: 'subscriber/edit/:id', component: SubscriberEditComponent},
+    {path: 'subscriber/create', component: SubscriberEditComponent},
+    {path: 'sms', component: SmsComponent},
+    {path: 'setting', component: AliyunComponent},
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

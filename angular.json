@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sms": {
+    "aliyun": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -39,7 +39,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "app/sms",
+            "outputPath": "app/aliyun",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -98,15 +98,15 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "sms:build",
+            "browserTarget": "aliyun:build",
             "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "sms:build:production"
+              "browserTarget": "aliyun:build:production"
             },
             "development": {
-              "browserTarget": "sms:build:development"
+              "browserTarget": "aliyun:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -114,7 +114,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sms:build"
+            "browserTarget": "aliyun:build"
           }
         }
       }

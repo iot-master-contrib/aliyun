@@ -16,8 +16,8 @@ import (
 
 func App() *model.App {
 	return &model.App{
-		Id:   "sms",
-		Name: "短消息推送",
+		Id:   "aliyun",
+		Name: "阿里云短消息推送",
 		Entries: []model.AppEntry{{
 			Path: "app/aliyun/subscriber",
 			Name: "消息订阅",
@@ -34,7 +34,7 @@ func App() *model.App {
 	}
 }
 
-//go:embed all:app/sms
+//go:embed all:app/aliyun
 var wwwFiles embed.FS
 
 // @title 阿里云接口文档
@@ -56,10 +56,10 @@ func Startup(app *web.Engine) error {
 	}
 
 	//注册前端接口
-	api.RegisterRoutes(app.Group("/app/sms/api"))
+	api.RegisterRoutes(app.Group("/app/aliyun/api"))
 
 	//注册接口文档
-	web.RegisterSwaggerDocs(app.Group("/app/sms"), "sms")
+	web.RegisterSwaggerDocs(app.Group("/app/aliyun"), "aliyun")
 
 	return nil
 }
@@ -71,7 +71,7 @@ func Register() error {
 
 func Static(fs *web.FileSystem) {
 	//前端静态文件
-	fs.Put("/app/sms", http.FS(wwwFiles), "", "app/sms/index.html")
+	fs.Put("/app/aliyun", http.FS(wwwFiles), "", "app/aliyun/index.html")
 }
 
 func Shutdown() error {
