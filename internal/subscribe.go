@@ -28,7 +28,7 @@ func Subscribe() {
 		has, err := db.Engine.Table("alarm").Select("alarm.*, product.name as product, device.name as device").
 			Join("INNER", "product", "product.id=alarm.product_id").
 			Join("INNER", "device", "device.id=alarm.device_id").
-			Where("id=?", notify.AlarmId).
+			Where("alarm.id=?", notify.AlarmId).
 			Get(&alarm)
 		if err != nil {
 			log.Error(err)
