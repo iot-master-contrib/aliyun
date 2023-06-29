@@ -13,8 +13,8 @@ import (
 // @Accept json
 // @Produce json
 // @Success 200 {object} ReplyData[internal.Options] 返回阿里云配置
-// @Router /config/aliyun [get]
-func configGetAliyun(ctx *gin.Context) {
+// @Router /config [get]
+func configGet(ctx *gin.Context) {
 	curd.OK(ctx, internal.GetOptions())
 }
 
@@ -26,8 +26,8 @@ func configGetAliyun(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Success 200 {object} ReplyData[int]
-// @Router /config/aliyun [post]
-func configSetAliyun(ctx *gin.Context) {
+// @Router /config [post]
+func configSet(ctx *gin.Context) {
 	var conf internal.Options
 	err := ctx.BindJSON(&conf)
 	if err != nil {
@@ -44,6 +44,6 @@ func configSetAliyun(ctx *gin.Context) {
 }
 
 func configRouter(app *gin.RouterGroup) {
-	app.POST("/aliyun", configSetAliyun)
-	app.GET("/aliyun", configGetAliyun)
+	app.POST("/", configSet)
+	app.GET("/", configGet)
 }

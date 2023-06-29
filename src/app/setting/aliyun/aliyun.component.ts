@@ -20,7 +20,6 @@ export class AliyunComponent implements OnInit {
                 private route: ActivatedRoute,
                 private rs: RequestService,
                 private msg: NzMessageService) {
-        this.load()
     }
 
     switchValue = false;
@@ -34,12 +33,6 @@ export class AliyunComponent implements OnInit {
         this.build()
     }
 
-    load() {
-        this.rs.get(`config/aliyun`).subscribe((res) => {
-            this.dbData = res.data
-            // this.group.patchValue({  })
-        });
-    }
 
     build(obj?: any) {
         obj = obj || {}
@@ -54,7 +47,7 @@ export class AliyunComponent implements OnInit {
     submit() {
         if (this.group.valid) {
 
-            this.rs.post(`config/aliyun`, this.group.value).subscribe(res => {
+            this.rs.post(`config`, this.group.value).subscribe(res => {
                 this.msg.success("保存成功")
             })
 
