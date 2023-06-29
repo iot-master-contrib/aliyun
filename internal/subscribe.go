@@ -23,8 +23,8 @@ func Subscribe() {
 			return
 		}
 
-		var alarm map[string]any //model.Alarm
-		has, err := db.Engine.Where("id=?", notify.AlarmId).Table("alarm").Get(&alarm)
+		var alarm model.Alarm
+		has, err := db.Engine.ID(notify.AlarmId).Get(&alarm)
 		if err != nil {
 			log.Error(err)
 			return
@@ -46,12 +46,13 @@ func Subscribe() {
 		}
 
 		//只取字符串参数
-		m := make(map[string]string)
-		for k, v := range alarm {
-			if s, ok := v.(string); ok {
-				m[k] = s
-			}
-			//else To string ?
+		m := map[string]string{
+			"user":    user.Name,
+			"product": alarm.Product,
+			"device":  alarm.Device,
+			"type":    alarm.Type,
+			"title":   alarm.Title,
+			"message": alarm.Message,
 		}
 
 		//通知
