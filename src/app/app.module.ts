@@ -30,8 +30,6 @@ import {NzTableModule} from 'ng-zorro-antd/table';
 import {NzTagModule} from 'ng-zorro-antd/tag';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
-import {SubscribersComponent} from "./subscribers/subscribers.component";
-import {SubscriberEditComponent} from "./subscriber-edit/subscriber-edit.component";
 import {NzSpaceModule} from "ng-zorro-antd/space";
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzCollapseModule} from "ng-zorro-antd/collapse";
@@ -43,8 +41,6 @@ registerLocaleData(zh);
         AppComponent,
         AliyunComponent,
         SmsComponent,
-        SubscribersComponent,
-        SubscriberEditComponent,
     ],
     imports: [
         BrowserModule,

@@ -3,26 +3,49 @@ package internal
 import (
 	"encoding/json"
 	paho "github.com/eclipse/paho.mqtt.golang"
-	"github.com/iot-master-contrib/aliyun/types"
+	"github.com/zgwit/iot-master/v3/model"
 	"github.com/zgwit/iot-master/v3/pkg/db"
 	"github.com/zgwit/iot-master/v3/pkg/log"
 	"github.com/zgwit/iot-master/v3/pkg/mqtt"
 )
 
 func Subscribe() {
-	mqtt.Client.Subscribe("alarm/+/+", 0, func(client paho.Client, message paho.Message) {
+	mqtt.Client.Subscribe("notify/+/+", 0, func(client paho.Client, message paho.Message) {
 		//topics := strings.Split(message.Topic(), "/")
 		//pid := topics[1]
 		//id := topics[2]
 
 		//解析数据
-		var alarm map[string]interface{} //TODO 定义在payload中
-		err := json.Unmarshal(message.Payload(), &alarm)
+		var notify model.Notification
+		err := json.Unmarshal(message.Payload(), &notify)
 		if err != nil {
-			//log
+			log.Error(err)
 			return
 		}
 
+		var alarm map[string]any //model.Alarm
+		has, err := db.Engine.Where("id=?", notify.AlarmId).Table("alarm").Get(&alarm)
+		if err != nil {
+			log.Error(err)
+			return
+		}
+		if !has {
+			log.Error("找不到记录")
+			return
+		}
+
+		var user model.User
+		has, err = db.Engine.ID(notify.UserId).Get(&user)
+		if err != nil {
+			log.Error(err)
+			return
+		}
+		if !has {
+			log.Error("找不到用户")
+			return
+		}
+
+		//只取字符串参数
 		m := make(map[string]string)
 		for k, v := range alarm {
 			if s, ok := v.(string); ok {
@@ -31,20 +54,17 @@ func Subscribe() {
 			//else To string ?
 		}
 
-		//查询订阅者
-		level := alarm["level"].(uint)
-		var subs []*types.Subscriber
-		err = db.Engine.Where("level <= ?", level).And("disabled = ?", false).Find(&subs)
-		if err != nil && len(subs) > 0 {
-			var phones []string
-			for _, s := range subs {
-				phones = append(phones, s.Cellphone)
-			}
-
-			//发送
-			err = Send(phones, m)
-			if err != nil {
-				log.Info(err)
+		//通知
+		for _, t := range notify.Channels {
+			switch t {
+			case "sms":
+				//发送短信
+				err = Send([]string{user.Cellphone}, m)
+				if err != nil {
+					log.Info(err)
+				}
+			case "voice":
+				//打电话
 			}
 		}
 

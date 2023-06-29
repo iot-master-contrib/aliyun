@@ -17,6 +17,11 @@ func main() {
 
 	config.Load()
 
+	//强行修改地址，不能提交
+	opts := web.GetOptions()
+	opts.Addr = ":8081"
+	web.SetOptions(opts)
+
 	err := log.Open()
 	if err != nil {
 		log.Fatal(err)
@@ -24,6 +29,11 @@ func main() {
 
 	//加载数据库
 	err = db.Open()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = db.Engine.Sync2(aliyun.Models()...)
 	if err != nil {
 		log.Fatal(err)
 	}
