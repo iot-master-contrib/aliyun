@@ -23,10 +23,12 @@ func Subscribe() {
 			return
 		}
 
-		var alarm model.Alarm
-		has, err := db.Engine.ID(notify.AlarmId).Select("alarm.*, product.name as product, device.name as device").
+		//var alarm model.Alarm 结构体不取 project,device字段
+		alarm := make(map[string]any)
+		has, err := db.Engine.Select("alarm.*, product.name as product, device.name as device").
 			Join("INNER", "product", "product.id=alarm.product_id").
 			Join("INNER", "device", "device.id=alarm.device_id").
+			Where("id=?", notify.AlarmId).
 			Get(&alarm)
 		if err != nil {
 			log.Error(err)
@@ -50,12 +52,18 @@ func Subscribe() {
 
 		//只取字符串参数
 		m := map[string]string{
-			"user":    user.Name,
-			"product": alarm.Product,
-			"device":  alarm.Device,
-			"type":    alarm.Type,
-			"title":   alarm.Title,
-			"message": alarm.Message,
+			"user": user.Name,
+			//"product": alarm.Product,
+			//"device":  alarm.Device,
+			//"type":    alarm.Type,
+			//"title":   alarm.Title,
+			//"message": alarm.Message,
+		}
+
+		for k, v := range alarm {
+			if val, ok := v.(string); ok {
+				m[k] = val
+			}
 		}
 
 		//通知
