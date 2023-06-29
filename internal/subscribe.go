@@ -24,7 +24,10 @@ func Subscribe() {
 		}
 
 		var alarm model.Alarm
-		has, err := db.Engine.ID(notify.AlarmId).Get(&alarm)
+		has, err := db.Engine.ID(notify.AlarmId).Select("alarm.*, product.name as product, device.name as device").
+			Join("INNER", "product", "product.id=alarm.product_id").
+			Join("INNER", "device", "device.id=alarm.device_id").
+			Get(&alarm)
 		if err != nil {
 			log.Error(err)
 			return
