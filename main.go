@@ -4,6 +4,7 @@ import (
 	"embed"
 	"encoding/json"
 	"github.com/iot-master-contrib/aliyun/api"
+	"github.com/iot-master-contrib/aliyun/config"
 	_ "github.com/iot-master-contrib/aliyun/docs"
 	"github.com/iot-master-contrib/aliyun/internal"
 	"github.com/iot-master-contrib/aliyun/types"
@@ -49,6 +50,13 @@ func main() {
 
 func Startup(app *web.Engine) error {
 
+	config.Load()
+	err := internal.Open()
+	if err != nil {
+		return err
+	}
+
+	//监听消息
 	internal.Subscribe()
 
 	//注册前端接口

@@ -12,15 +12,14 @@ import (
 
 var client *sms.Client
 
-func Open() error {
+func Open() (err error) {
 	config := &openapi.Config{
 		AccessKeyId:     tea.String(options.Id),
 		AccessKeySecret: tea.String(options.Secret),
 		Endpoint:        tea.String("dysmsapi.aliyuncs.com"),
 	}
-	var err error
 	client, err = sms.NewClient(config)
-	return err
+	return
 }
 
 func Send(phone []string, param map[string]string) error {

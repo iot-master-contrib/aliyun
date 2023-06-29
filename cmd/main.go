@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/iot-master-contrib/aliyun"
-	"github.com/iot-master-contrib/aliyun/config"
 	"github.com/zgwit/iot-master/v3/pkg/banner"
 	"github.com/zgwit/iot-master/v3/pkg/build"
 	"github.com/zgwit/iot-master/v3/pkg/db"
@@ -14,8 +13,6 @@ import (
 func main() {
 	banner.Print("iot-master-plugin:aliyun")
 	build.Print()
-
-	config.Load()
 
 	//强行修改地址，不能提交
 	opts := web.GetOptions()
