@@ -1,8 +1,6 @@
 package internal
 
 import (
-	"encoding/json"
-	paho "github.com/eclipse/paho.mqtt.golang"
 	"github.com/zgwit/iot-master/v3/model"
 	"github.com/zgwit/iot-master/v3/pkg/db"
 	"github.com/zgwit/iot-master/v3/pkg/log"
@@ -10,18 +8,10 @@ import (
 )
 
 func Subscribe() {
-	mqtt.Client.Subscribe("notify/+/+", 0, func(client paho.Client, message paho.Message) {
+	mqtt.SubscribeStruct[model.Notification]("notify/+/+", func(topic string, notify *model.Notification) {
 		//topics := strings.Split(message.Topic(), "/")
 		//pid := topics[1]
 		//id := topics[2]
-
-		//解析数据
-		var notify model.Notification
-		err := json.Unmarshal(message.Payload(), &notify)
-		if err != nil {
-			log.Error(err)
-			return
-		}
 
 		//var alarm model.Alarm 结构体不取 project,device字段
 		alarm := make(map[string]any)
