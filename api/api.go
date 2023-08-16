@@ -6,7 +6,6 @@ func RegisterRoutes(app *gin.RouterGroup) {
 
 	smsRouter(app.Group("/sms"))
 
-	subscriberRouter(app.Group("/subscriber"))
+	configRouter(app.Group("/config"))
 
-	//configRouter(app.Group("/config"))
 }

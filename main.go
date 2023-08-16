@@ -4,11 +4,11 @@ import (
 	"embed"
 	"encoding/json"
 	"github.com/iot-master-contrib/aliyun/api"
+	"github.com/iot-master-contrib/aliyun/config"
 	_ "github.com/iot-master-contrib/aliyun/docs"
+	"github.com/iot-master-contrib/aliyun/internal"
 	"github.com/iot-master-contrib/aliyun/types"
 	"github.com/zgwit/iot-master/v3/model"
-	"github.com/zgwit/iot-master/v3/pkg/db"
-	"github.com/zgwit/iot-master/v3/pkg/log"
 	"github.com/zgwit/iot-master/v3/pkg/mqtt"
 	"github.com/zgwit/iot-master/v3/pkg/web"
 	"net/http"
@@ -19,9 +19,6 @@ func App() *model.App {
 		Id:   "aliyun",
 		Name: "阿里云短消息推送",
 		Entries: []*model.AppEntry{{
-			Path: "app/aliyun/subscriber",
-			Name: "消息订阅",
-		}, {
 			Path: "app/aliyun/sms",
 			Name: "消息历史",
 		}, {
@@ -31,6 +28,12 @@ func App() *model.App {
 		Type:    "tcp",
 		Address: "http://localhost" + web.GetOptions().Addr,
 		Icon:    "/app/aliyun/assets/sms.svg",
+	}
+}
+
+func Models() []any {
+	return []any{
+		new(types.Sms),
 	}
 }
 
@@ -47,13 +50,14 @@ func main() {
 
 func Startup(app *web.Engine) error {
 
-	//同步表结构
-	err := db.Engine.Sync2(
-		new(types.Sms), new(types.Subscriber),
-	)
+	config.Load()
+	err := internal.Open()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
+
+	//监听消息
+	internal.Subscribe()
 
 	//注册前端接口
 	api.RegisterRoutes(app.Group("/app/aliyun/api"))

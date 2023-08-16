@@ -2,6 +2,7 @@ package internal
 
 import (
 	"encoding/json"
+	"errors"
 	openapi "github.com/alibabacloud-go/darabonba-openapi/v2/client"
 	sms "github.com/alibabacloud-go/dysmsapi-20170525/v3/client"
 	util "github.com/alibabacloud-go/tea-utils/v2/service"
@@ -12,15 +13,14 @@ import (
 
 var client *sms.Client
 
-func Open() error {
+func Open() (err error) {
 	config := &openapi.Config{
 		AccessKeyId:     tea.String(options.Id),
 		AccessKeySecret: tea.String(options.Secret),
 		Endpoint:        tea.String("dysmsapi.aliyuncs.com"),
 	}
-	var err error
 	client, err = sms.NewClient(config)
-	return err
+	return
 }
 
 func Send(phone []string, param map[string]string) error {
@@ -37,5 +37,9 @@ func Send(phone []string, param map[string]string) error {
 	if err != nil {
 		log.Println(resp)
 	}
-	return err
+	//if resp.StatusCode != 200
+	if *resp.Body.Code != "OK" {
+		return errors.New(*resp.Body.Message)
+	}
+	return nil
 }

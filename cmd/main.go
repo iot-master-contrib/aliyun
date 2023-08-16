@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/iot-master-contrib/aliyun"
-	"github.com/iot-master-contrib/aliyun/config"
 	"github.com/zgwit/iot-master/v3/pkg/banner"
 	"github.com/zgwit/iot-master/v3/pkg/build"
 	"github.com/zgwit/iot-master/v3/pkg/db"
@@ -15,7 +14,10 @@ func main() {
 	banner.Print("iot-master-plugin:aliyun")
 	build.Print()
 
-	config.Load()
+	//强行修改地址，不能提交
+	opts := web.GetOptions()
+	opts.Addr = ":8081"
+	web.SetOptions(opts)
 
 	err := log.Open()
 	if err != nil {
@@ -24,6 +26,11 @@ func main() {
 
 	//加载数据库
 	err = db.Open()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = db.Engine.Sync2(aliyun.Models()...)
 	if err != nil {
 		log.Fatal(err)
 	}
